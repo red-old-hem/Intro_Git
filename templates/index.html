@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>配送カレンダー</title>
+</head>
+<body>
+<h1>配送カレンダー</h1>
+<form method="post">
+    <label>受注日: <input type="date" name="order_date" required></label><br>
+    <label>リードタイム:
+        <select name="lead_time">
+            <option value="1">1日</option>
+            <option value="2">2日</option>
+            <option value="3">3日</option>
+        </select>
+    </label><br>
+    <button type="submit">計算</button>
+</form>
+{% if result %}
+    <h2>結果</h2>
+    <p>受注日: {{ result.order_date }}</p>
+    <p>出荷日: {{ result.ship_date }}</p>
+    <p>納品予定日: {{ result.delivery_date }}</p>
+{% endif %}
+</body>
+</html>
