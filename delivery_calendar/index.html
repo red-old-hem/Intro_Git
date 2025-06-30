@@ -7,6 +7,11 @@
 body { font-family: Arial, sans-serif; margin: 2em; }
 label { display: inline-block; width: 6em; }
 .result { margin-top: 1em; font-weight: bold; }
+.calendar table { border-collapse: collapse; margin-top: 1em; }
+.calendar th, .calendar td { border: 1px solid #ccc; width: 2em; height: 2em; text-align: center; }
+.calendar .holiday { background-color: #fdd; }
+.calendar .ship { background-color: #ffe082; }
+.calendar .delivery { background-color: #c8e6c9; }
 </style>
 </head>
 <body>
@@ -17,6 +22,7 @@ label { display: inline-block; width: 6em; }
 <p>出荷日: <span id="shipDate">-</span></p>
 <p>納品日: <span id="deliveryDate">-</span></p>
 </div>
+<div id="calendar" class="calendar"></div>
 <script src="app.js"></script>
 </body>
 </html>
