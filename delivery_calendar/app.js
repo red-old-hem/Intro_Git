@@ -51,6 +51,44 @@ function format(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
+function drawCalendar(orderDate, shipDate, deliveryDate) {
+  const year = orderDate.getFullYear();
+  const month = orderDate.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDate = new Date(year, month + 1, 0).getDate();
+  const days = ['日', '月', '火', '水', '木', '金', '土'];
+
+  let html = '<table class="calendar"><thead><tr>';
+  for (const d of days) html += `<th>${d}</th>`;
+  html += '</tr></thead><tbody><tr>';
+
+  let day = 0;
+  for (let i = 0; i < firstDay.getDay(); i++) {
+    html += '<td></td>';
+    day++;
+  }
+
+  for (let date = 1; date <= lastDate; date++) {
+    const current = new Date(year, month, date);
+    const classes = [];
+    if (format(current) === format(orderDate)) classes.push('order');
+    if (format(current) === format(shipDate)) classes.push('ship');
+    if (format(current) === format(deliveryDate)) classes.push('delivery');
+    if (isHoliday(current)) classes.push('holiday');
+    html += `<td class="${classes.join(' ')}">${date}</td>`;
+    day++;
+    if (day % 7 === 0 && date !== lastDate) html += '</tr><tr>';
+  }
+
+  while (day % 7 !== 0) {
+    html += '<td></td>';
+    day++;
+  }
+
+  html += '</tr></tbody></table>';
+  document.getElementById('calendar').innerHTML = html;
+}
+
 const orderInput = document.getElementById('orderDate');
 const shipSpan = document.getElementById('shipDate');
 const deliverySpan = document.getElementById('deliveryDate');
@@ -66,4 +104,5 @@ orderInput.addEventListener('change', () => {
   const deliveryDate = addBusinessDays(shipDate, 1);
   shipSpan.textContent = format(shipDate);
   deliverySpan.textContent = format(deliveryDate);
+  drawCalendar(orderDate, shipDate, deliveryDate);
 });
