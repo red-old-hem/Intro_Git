@@ -1,0 +1,344 @@
+:root {
+  color-scheme: light dark;
+  --primary: #1d6fa3;
+  --accent: #1c9a74;
+  --bg: #f9fbfd;
+  --border: #d4d9dd;
+  --waiting: #ffe8a1;
+  --arrived: #bfe3ff;
+  --completed: #c7f2cf;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: var(--bg);
+  color: #202428;
+  min-height: 100vh;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 1px 4px rgba(17, 24, 39, 0.08);
+}
+
+header h1 {
+  margin: 0 0 0.3rem;
+  font-size: 1.8rem;
+}
+
+header p {
+  margin: 0;
+  color: #4b5563;
+  max-width: 60rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: minmax(320px, 360px) 1fr minmax(260px, 320px);
+  gap: 1.5rem;
+  padding: 1.5rem 2rem 3rem;
+}
+
+section, aside section {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+#reservation form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.inline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+label {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+input, select, textarea, button {
+  font: inherit;
+}
+
+input, select, textarea {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(29, 111, 163, 0.18);
+}
+
+button[type="submit"], .detail-actions button, #todayBtn, #exportCsvBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+button[type="submit"]:hover, .detail-actions button:hover, #todayBtn:hover, #exportCsvBtn:hover {
+  filter: brightness(1.05);
+}
+
+button[type="submit"]:active, .detail-actions button:active, #todayBtn:active, #exportCsvBtn:active {
+  transform: translateY(1px);
+}
+
+#schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.schedule-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+#scheduleGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.dock-column {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 480px;
+}
+
+.dock-header {
+  background: rgba(29, 111, 163, 0.1);
+  color: #124366;
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.dock-body {
+  flex: 1;
+  display: grid;
+  grid-template-rows: repeat(auto-fill, minmax(72px, auto));
+  background: #f5f7fa;
+}
+
+.time-slot {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.time-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.slot {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.55rem 0.7rem;
+  background: white;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  display: grid;
+  gap: 0.2rem;
+  transition: transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.slot:focus, .slot:hover {
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.16);
+}
+
+.slot-time {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.slot-company {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.slot-status {
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.slot.waiting {
+  background: var(--waiting);
+}
+
+.slot.arrived {
+  background: var(--arrived);
+}
+
+.slot.completed {
+  background: var(--completed);
+}
+
+#details.empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+#details dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  row-gap: 0.6rem;
+  column-gap: 0.4rem;
+}
+
+#details dt {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.detail-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.7rem;
+  margin-top: 0.6rem;
+}
+
+.detail-actions button:last-child {
+  background: #d9534f;
+}
+
+#dockStats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+#dockStats li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+#snackbar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  background: rgba(17, 24, 39, 0.92);
+  color: white;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  font-size: 0.95rem;
+}
+
+#snackbar.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 1100px) {
+  main {
+    grid-template-columns: minmax(300px, 1fr);
+  }
+
+  #sidePanel {
+    display: grid;
+    gap: 1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0f172a;
+    color: #f9fafb;
+  }
+
+  header, section, aside section {
+    background: #111827;
+    color: #f9fafb;
+    border-color: #1f2937;
+  }
+
+  input, select, textarea {
+    background: #0f172a;
+    color: inherit;
+    border-color: #1f2937;
+  }
+
+  #scheduleGrid {
+    color: inherit;
+  }
+
+  .dock-body {
+    background: #0f172a;
+  }
+
+  .time-slot {
+    border-bottom-color: #1f2937;
+  }
+
+  .slot {
+    background: #111827;
+    color: inherit;
+  }
+
+  #dockStats li {
+    background: #111827;
+  }
+}
