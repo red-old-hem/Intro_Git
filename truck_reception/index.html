@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>トラック受付スケジューラ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>倉庫トラック受付システム</h1>
+    <p>ムーボのような受付・予約の流れを参考にした、ブラウザ上で動作するシンプルなスケジュール管理ツールです。</p>
+  </header>
+  <main>
+    <section id="reservation">
+      <h2>新規予約</h2>
+      <form id="reservationForm">
+        <div class="field">
+          <label for="company">会社名</label>
+          <input id="company" name="company" type="text" required placeholder="例: 株式会社ロジテック">
+        </div>
+        <div class="field">
+          <label for="truckId">車番</label>
+          <input id="truckId" name="truckId" type="text" required placeholder="例: 品川 12 あ 3456">
+        </div>
+        <div class="field">
+          <label for="driver">ドライバー</label>
+          <input id="driver" name="driver" type="text" placeholder="例: 山田太郎">
+        </div>
+        <div class="field">
+          <label for="cargo">荷物種別</label>
+          <select id="cargo" name="cargo">
+            <option value="食品">食品</option>
+            <option value="日用品">日用品</option>
+            <option value="アパレル">アパレル</option>
+            <option value="家電">家電</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="dock">バース</label>
+          <select id="dock" name="dock"></select>
+        </div>
+        <div class="inline">
+          <div class="field">
+            <label for="date">受付日</label>
+            <input id="date" name="date" type="date" required>
+          </div>
+          <div class="field">
+            <label for="time">開始時刻</label>
+            <input id="time" name="time" type="time" required>
+          </div>
+          <div class="field">
+            <label for="duration">作業時間</label>
+            <select id="duration" name="duration">
+              <option value="30">30分</option>
+              <option value="60" selected>60分</option>
+              <option value="90">90分</option>
+              <option value="120">120分</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="note">備考</label>
+          <textarea id="note" name="note" rows="2" placeholder="搬入品目、注意事項など"></textarea>
+        </div>
+        <button type="submit">予約を登録</button>
+      </form>
+    </section>
+
+    <section id="schedule">
+      <div class="schedule-header">
+        <h2>日別スケジュール</h2>
+        <div class="controls">
+          <label for="selectedDate">表示日</label>
+          <input type="date" id="selectedDate">
+          <button id="todayBtn" type="button">今日</button>
+          <button id="exportCsvBtn" type="button">CSV出力</button>
+        </div>
+      </div>
+      <div id="scheduleGrid"></div>
+    </section>
+
+    <aside id="sidePanel">
+      <section>
+        <h3>予約詳細</h3>
+        <div id="details" class="empty">スケジュール表の予約をクリックすると詳細が表示されます。</div>
+      </section>
+      <section>
+        <h3>当日のバース稼働状況</h3>
+        <ul id="dockStats"></ul>
+      </section>
+    </aside>
+  </main>
+
+  <template id="detailTemplate">
+    <dl>
+      <div><dt>会社</dt><dd data-field="company"></dd></div>
+      <div><dt>車番</dt><dd data-field="truckId"></dd></div>
+      <div><dt>ドライバー</dt><dd data-field="driver"></dd></div>
+      <div><dt>荷物</dt><dd data-field="cargo"></dd></div>
+      <div><dt>バース</dt><dd data-field="dock"></dd></div>
+      <div><dt>受付時間</dt><dd data-field="timeRange"></dd></div>
+      <div><dt>状況</dt><dd data-field="status"></dd></div>
+      <div><dt>備考</dt><dd data-field="note"></dd></div>
+      <div class="detail-actions">
+        <button type="button" data-action="toggle">到着/完了を更新</button>
+        <button type="button" data-action="delete">予約を削除</button>
+      </div>
+    </dl>
+  </template>
+
+  <template id="slotTemplate">
+    <div class="slot" tabindex="0">
+      <p class="slot-time"></p>
+      <p class="slot-company"></p>
+      <p class="slot-status"></p>
+    </div>
+  </template>
+
+  <template id="dockStatTemplate">
+    <li><span class="dock-label"></span><span class="dock-count"></span></li>
+  </template>
+
+  <div id="snackbar" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
